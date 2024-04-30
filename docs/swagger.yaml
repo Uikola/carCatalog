@@ -1,0 +1,243 @@
+basePath: /api
+definitions:
+  entity.AddCarsRequest:
+    properties:
+      regNums:
+        items:
+          type: string
+        type: array
+    type: object
+  entity.AddCarsResponse:
+    properties:
+      added_cars:
+        items:
+          $ref: '#/definitions/entity.Car'
+        type: array
+    type: object
+  entity.Car:
+    properties:
+      id:
+        type: integer
+      mark:
+        type: string
+      model:
+        type: string
+      owner:
+        $ref: '#/definitions/entity.People'
+      reg_num:
+        type: string
+      year:
+        type: integer
+    type: object
+  entity.People:
+    properties:
+      name:
+        type: string
+      patronymic:
+        type: string
+      surname:
+        type: string
+    type: object
+  entity.UpdateCarRequest:
+    properties:
+      mark:
+        type: string
+      model:
+        type: string
+      owner:
+        properties:
+          name:
+            type: string
+          patronymic:
+            type: string
+          surname:
+            type: string
+        type: object
+      reg_num:
+        type: string
+      year:
+        type: integer
+    type: object
+host: localhost:8000
+info:
+  contact:
+    email: ugulaev806@yandex.ru
+    name: API Support
+    url: https://t.me/uikola
+  description: This is an API for managing the car catalog.
+  title: Car Catalog API
+  version: "1.0"
+paths:
+  /cars:
+    get:
+      consumes:
+      - application/json
+      description: Выводит список машин с фильтрацией по всем полям и пагинацией
+      parameters:
+      - description: Лимит
+        in: query
+        name: limit
+        type: integer
+      - description: Смещение
+        in: query
+        name: offset
+        type: integer
+      - description: Фильтр по регистрационному номеру
+        in: query
+        name: regNum
+        type: string
+      - description: Фильтр по марке автомобиля
+        in: query
+        name: mark
+        type: string
+      - description: Фильтр по модели автомобиля
+        in: query
+        name: model
+        type: string
+      - description: Фильтр по марке автомобиля
+        in: query
+        name: mark
+        type: string
+      - description: Фильтр по году
+        format: '"year=2020 or year=gt:2020"'
+        in: query
+        name: year
+        type: string
+      - description: Фильтр по имени владельца
+        in: query
+        name: owner_name
+        type: string
+      - description: Фильтр по фамилии владельца
+        in: query
+        name: owner_surname
+        type: string
+      - description: Фильтр по отчеству владельца
+        in: query
+        name: owner_patronymic
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.Car'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Выводит список машин
+      tags:
+      - cars
+    post:
+      consumes:
+      - application/json
+      description: Получает на вход список регистрационных номеров, обогатив данные
+        через стороннее api, добавляет их.
+      parameters:
+      - description: Запрос добавления автомобиля
+        in: body
+        name: regNums
+        required: true
+        schema:
+          $ref: '#/definitions/entity.AddCarsRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.AddCarsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Добавляет автомобили по их регистрационным номерам.
+      tags:
+      - cars
+  /cars/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет автомобиль по его ID
+      parameters:
+      - description: Car ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Удаляет автомобиль
+      tags:
+      - cars
+    patch:
+      consumes:
+      - application/json
+      description: Обновляет одно или несколько полей автомобиля
+      parameters:
+      - description: Car ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Запрос обновления автомобиля
+        in: body
+        name: carForUpdate
+        required: true
+        schema:
+          $ref: '#/definitions/entity.UpdateCarRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Обновляет поля автомобиля
+      tags:
+      - cars
+swagger: "2.0"

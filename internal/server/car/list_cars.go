@@ -13,6 +13,27 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+// ListCars godoc
+//
+//	@Summary		Выводит список машин
+//	@Description	Выводит список машин с фильтрацией по всем полям и пагинацией
+//	@Tags			cars
+//	@Accept			json
+//	@Produce		json
+//	@Param			limit				query		int		false	"Лимит"
+//	@Param			offset				query		int		false	"Смещение"
+//	@Param			regNum				query		string	false	"Фильтр по регистрационному номеру"
+//	@Param			mark				query		string	false	"Фильтр по марке автомобиля"
+//	@Param			model				query		string	false	"Фильтр по модели автомобиля"
+//	@Param			mark				query		string	false	"Фильтр по марке автомобиля"
+//	@Param			year				query		string	false	"Фильтр по году"	Format("year=2020 or year=gt:2020")
+//	@Param			owner_name			query		string	false	"Фильтр по имени владельца"
+//	@Param			owner_surname		query		string	false	"Фильтр по фамилии владельца"
+//	@Param			owner_patronymic	query		string	false	"Фильтр по отчеству владельца"
+//	@Success		200					{array}		entity.Car
+//	@Failure		400					{object}	map[string]string
+//	@Failure		500					{object}	map[string]string
+//	@Router			/cars [get]
 func (h Handler) ListCars(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	var limit, offset int

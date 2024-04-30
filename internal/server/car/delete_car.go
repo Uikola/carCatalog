@@ -9,6 +9,18 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+// DeleteCar godoc
+//
+//	@Summary		Удаляет автомобиль
+//	@Description	Удаляет автомобиль по его ID
+//	@Tags			cars
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path	int	true	"Car ID"
+//	@Success		204	"No Content"
+//	@Failure		400	{object}	map[string]string
+//	@Failure		500	{object}	map[string]string
+//	@Router			/cars/{id} [delete]
 func (h Handler) DeleteCar(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 

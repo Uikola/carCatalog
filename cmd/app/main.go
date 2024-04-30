@@ -24,6 +24,16 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+//	@title			Car Catalog API
+//	@version		1.0
+//	@description	This is an API for managing the car catalog.
+
+//	@contact.name	API Support
+//	@contact.url	https://t.me/uikola
+//	@contact.email	ugulaev806@yandex.ru
+
+// @host		localhost:8000
+// @BasePath	/api
 func main() {
 	ctx := context.Background()
 	ctx, cancel := signal.NotifyContext(ctx, os.Interrupt)

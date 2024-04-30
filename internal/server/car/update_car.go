@@ -12,6 +12,20 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+// UpdateCar godoc
+//
+//	@Summary		Обновляет поля автомобиля
+//	@Description	Обновляет одно или несколько полей автомобиля
+//	@Tags			cars
+//	@Accept			json
+//	@Produce		json
+//	@Param			id				path	int						true	"Car ID"
+//	@Param			carForUpdate	body	entity.UpdateCarRequest	true	"Запрос обновления автомобиля"
+//	@Success		200				"OK"
+//	@Failure		400				{object}	map[string]string
+//	@Failure		404				{object}	map[string]string
+//	@Failure		500				{object}	map[string]string
+//	@Router			/cars/{id} [patch]
 func (h Handler) UpdateCar(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 

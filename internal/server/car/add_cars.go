@@ -8,6 +8,17 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+// AddCars godoc
+//
+//	@Summary		Добавляет автомобили по их регистрационным номерам.
+//	@Description	Получает на вход список регистрационных номеров, обогатив данные через стороннее api, добавляет их.
+//	@Tags			cars
+//	@Accept			json
+//	@Produce		json
+//	@Param			regNums	body		entity.AddCarsRequest	true	"Запрос добавления автомобиля"
+//	@Success		201		{object}	entity.AddCarsResponse
+//	@Failure		400		{object}	map[string]string
+//	@Router			/cars [post]
 func (h Handler) AddCars(w http.ResponseWriter, r *http.Request) {
 	log.Info().Msg("Adding cars")
 	ctx := r.Context()
@@ -27,5 +38,5 @@ func (h Handler) AddCars(w http.ResponseWriter, r *http.Request) {
 	log.Info().Msgf("Added %d cars", len(cars))
 
 	w.WriteHeader(http.StatusCreated)
-	_ = json.NewEncoder(w).Encode(map[string]interface{}{"added_cars": cars})
+	_ = json.NewEncoder(w).Encode(entity.AddCarsResponse{AddedCars: cars})
 }
