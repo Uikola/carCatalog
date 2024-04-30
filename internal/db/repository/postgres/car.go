@@ -125,18 +125,30 @@ func (r CarRepository) DeleteCar(ctx context.Context, carID uint) error {
 func (r CarRepository) UpdateCar(ctx context.Context, carID uint, carMap map[string]interface{}) error {
 	const op = "CarRepository.UpdateCar"
 
+	fmt.Println(carMap)
 	var updateQuery string
 	var args []interface{}
+	counter := 1
 	for key, value := range carMap {
-		if value.(string) == "" {
-			continue
+		switch value.(type) {
+		case string:
+			if value.(string) == "" {
+				continue
+			}
+		case int:
+			if value.(int) == 0 {
+				continue
+			}
 		}
-		updateQuery += fmt.Sprintf("%s=?, ", key)
+		updateQuery += fmt.Sprintf("%s=$%d, ", key, counter)
 		args = append(args, value)
+		counter++
 	}
 
-	updateQuery = updateQuery[:len(updateQuery)-2] + " WHERE id = ?"
+	updateQuery = updateQuery[:len(updateQuery)-2] + fmt.Sprintf(" WHERE id = $%d", counter)
 	args = append(args, carID)
+
+	fmt.Println(updateQuery)
 
 	stmt, err := r.db.Preparex("UPDATE cars SET " + updateQuery)
 	if err != nil {
@@ -151,7 +163,7 @@ func (r CarRepository) UpdateCar(ctx context.Context, carID uint, carMap map[str
 	return nil
 }
 
-func (r CarRepository) Exists(ctx context.Context, carID uint) (bool, error) {
+func (r CarRepository) ExistsByID(ctx context.Context, carID uint) (bool, error) {
 	const op = "CarRepository.Exists"
 
 	stmt, err := r.db.Preparex("SELECT reg_num FROM cars WHERE id = $1")
@@ -171,7 +183,26 @@ func (r CarRepository) Exists(ctx context.Context, carID uint) (bool, error) {
 	}
 
 	return true, nil
+}
 
+func (r CarRepository) ExistsByRegNum(ctx context.Context, regNum string) (bool, error) {
+	const op = "CarRepository.ExistsByRegNum"
+
+	stmt, err := r.db.Preparex("SELECT reg_num FROM cars WHERE reg_num = $1")
+	if err != nil {
+		return false, fmt.Errorf("%s:%w", op, err)
+	}
+
+	row := stmt.QueryRowxContext(ctx, regNum)
+	err = row.Scan(&regNum)
+	switch {
+	case errors.Is(sql.ErrNoRows, err):
+		return false, nil
+	case err != nil:
+		return false, fmt.Errorf("%s:%w", op, err)
+	}
+
+	return true, nil
 }
 
 func (r CarRepository) AddCar(ctx context.Context, car entity.Car) (entity.Car, error) {
