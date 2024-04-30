@@ -2,10 +2,11 @@ package car
 
 import (
 	"encoding/json"
-	"github.com/go-chi/chi/v5"
-	"github.com/rs/zerolog/log"
 	"net/http"
 	"strconv"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/rs/zerolog/log"
 )
 
 func (h Handler) DeleteCar(w http.ResponseWriter, r *http.Request) {

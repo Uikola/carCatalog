@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+
 	"github.com/Uikola/carCatalog/internal/entity"
 	"github.com/Uikola/carCatalog/internal/errorz"
 	"github.com/Uikola/carCatalog/pkg/filter"

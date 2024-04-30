@@ -3,12 +3,13 @@ package car
 import (
 	"encoding/json"
 	"errors"
+	"net/http"
+	"strconv"
+
 	"github.com/Uikola/carCatalog/internal/entity"
 	"github.com/Uikola/carCatalog/internal/errorz"
 	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog/log"
-	"net/http"
-	"strconv"
 )
 
 func (h Handler) UpdateCar(w http.ResponseWriter, r *http.Request) {

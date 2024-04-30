@@ -2,6 +2,7 @@ package car_usecase
 
 import (
 	"context"
+
 	"github.com/Uikola/carCatalog/internal/entity"
 	"github.com/Uikola/carCatalog/internal/errorz"
 	"github.com/Uikola/carCatalog/pkg/enrichment_api"

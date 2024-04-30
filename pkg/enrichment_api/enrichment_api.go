@@ -3,10 +3,11 @@ package enrichment_api
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/Uikola/carCatalog/internal/entity"
-	"github.com/rs/zerolog/log"
 	"net/http"
 	"os"
+
+	"github.com/Uikola/carCatalog/internal/entity"
+	"github.com/rs/zerolog/log"
 )
 
 type Client struct {

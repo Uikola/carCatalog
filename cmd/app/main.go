@@ -3,6 +3,12 @@ package main
 import (
 	"context"
 	"errors"
+	"net/http"
+	"os"
+	"os/signal"
+	"strconv"
+	"sync"
+
 	"github.com/Uikola/carCatalog/internal/db"
 	"github.com/Uikola/carCatalog/internal/db/repository/postgres"
 	"github.com/Uikola/carCatalog/internal/server"
@@ -16,11 +22,6 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"net/http"
-	"os"
-	"os/signal"
-	"strconv"
-	"sync"
 )
 
 func main() {

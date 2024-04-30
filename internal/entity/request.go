@@ -1,9 +1,10 @@
 package entity
 
 import (
+	"regexp"
+
 	"github.com/Uikola/carCatalog/internal/errorz"
 	"github.com/rs/zerolog/log"
-	"regexp"
 )
 
 type UpdateCarRequest struct {

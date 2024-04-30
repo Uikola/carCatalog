@@ -2,9 +2,10 @@ package car
 
 import (
 	"encoding/json"
+	"net/http"
+
 	"github.com/Uikola/carCatalog/internal/entity"
 	"github.com/rs/zerolog/log"
-	"net/http"
 )
 
 func (h Handler) AddCars(w http.ResponseWriter, r *http.Request) {

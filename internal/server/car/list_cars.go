@@ -3,13 +3,14 @@ package car
 import (
 	"encoding/json"
 	"errors"
+	"net/http"
+	"strconv"
+	"strings"
+
 	"github.com/Uikola/carCatalog/internal/entity"
 	"github.com/Uikola/carCatalog/internal/errorz"
 	"github.com/Uikola/carCatalog/pkg/filter"
 	"github.com/rs/zerolog/log"
-	"net/http"
-	"strconv"
-	"strings"
 )
 
 func (h Handler) ListCars(w http.ResponseWriter, r *http.Request) {
